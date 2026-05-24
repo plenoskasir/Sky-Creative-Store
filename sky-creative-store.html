@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sky Creative Store – Produk Digital, Jasa Web, Sistem Bisnis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+:root {
+  --bg: #FFF7ED; --surface: #FFFFFF; --soft-surface: #FEF3E2;
+  --primary: #F97316; --amber: #F59E0B; --text: #1F2937;
+  --muted: #6B7280; --border: #FED7AA; --accent: #FFEDD5;
+  --success: #22C55E; --danger: #EF4444;
+  --shadow: 0 2px 24px rgba(249,115,22,0.10);
+  --shadow-lg: 0 8px 40px rgba(249,115,22,0.16);
+  --radius: 20px; --radius-sm: 12px; --radius-xs: 8px;
+}
+.dark {
+  --bg: #0C0A09; --surface: #1C1917; --soft-surface: #292524;
+  --primary: #FB923C; --amber: #FBBF24; --text: #FFF7ED;
+  --muted: #D6D3D1; --border: #44403C; --accent: rgba(251,146,60,0.12);
+  --success: #22C55E; --danger: #F87171;
+  --shadow: 0 2px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);transition:background .3s,color .3s;min-height:100vh}
+h1,h2,h3,h4,h5{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700}
+.display{font-family:'Plus Jakarta Sans',sans-serif}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit}
+input,textarea,select{font-family:inherit}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:var(--radius-sm);font-weight:600;font-size:15px;border:none;transition:all .2s;cursor:pointer}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 4px 16px rgba(249,115,22,0.35)}
+.btn-primary:hover{background:#ea6c0e;transform:translateY(-1px);box-shadow:0 6px 20px rgba(249,115,22,0.45)}
+.btn-outline{background:transparent;color:var(--primary);border:1.5px solid var(--primary)}
+.btn-outline:hover{background:var(--accent)}
+.btn-ghost{background:var(--accent);color:var(--primary)}
+.btn-ghost:hover{background:var(--border)}
+.btn-sm{padding:8px 16px;font-size:13px}
+.btn-lg{padding:16px 32px;font-size:16px}
+.card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);box-shadow:var(--shadow);transition:all .25s}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.badge{display:inline-flex;align-items:center;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.4px}
+.badge-promo{background:#FEF9C3;color:#CA8A04}
+.dark .badge-promo{background:rgba(251,191,36,0.15);color:#FBBF24}
+.badge-best{background:#DCFCE7;color:#16A34A}
+.dark .badge-best{background:rgba(34,197,94,0.15);color:#22C55E}
+.badge-ready{background:#DBEAFE;color:#2563EB}
+.dark .badge-ready{background:rgba(37,99,235,0.15);color:#60A5FA}
+.badge-custom{background:#F3E8FF;color:#7C3AED}
+.dark .badge-custom{background:rgba(124,58,237,0.15);color:#A78BFA}
+.badge-new{background:var(--accent);color:var(--primary)}
+.section{padding:72px 0}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+.section-title{font-size:clamp(28px,4vw,40px);font-weight:800;margin-bottom:12px;letter-spacing:-1px}
+.section-sub{color:var(--muted);font-size:16px;margin-bottom:48px;max-width:560px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:900px){.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.section{padding:48px 0}}
+.tag{display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;background:var(--accent);color:var(--primary);margin-bottom:16px}
+.gradient-text{background:linear-gradient(135deg,var(--primary),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.icon-box{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--accent);color:var(--primary);flex-shrink:0}
+.sticky{position:sticky;top:0;z-index:100}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;backdrop-filter:blur(4px)}
+.modal{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-box{background:var(--surface);border-radius:var(--radius);padding:32px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.input-field{width:100%;padding:12px 16px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;outline:none;transition:border-color .2s}
+.input-field:focus{border-color:var(--primary)}
+.input-field::placeholder{color:var(--muted)}
+.sidebar-link{display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:var(--radius-xs);font-size:14px;font-weight:500;color:var(--muted);transition:all .2s;cursor:pointer}
+.sidebar-link:hover,.sidebar-link.active{background:var(--accent);color:var(--primary)}
+.stat-card{background:var(--surface);border-radius:var(--radius-sm);border:1.5px solid var(--border);padding:24px;box-shadow:var(--shadow)}
+.hero-bg{position:relative;overflow:hidden;background:linear-gradient(135deg,#FFF7ED 0%,#FFEDD5 50%,#FEF3C7 100%)}
+.dark .hero-bg{background:linear-gradient(135deg,#0C0A09 0%,#1C1917 50%,#0C0A09 100%)}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.4;pointer-events:none}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.fade-up{animation:fadeUp .6s ease both}
+.fade-up-1{animation-delay:.1s}
+.fade-up-2{animation-delay:.2s}
+.fade-up-3{animation-delay:.3s}
+.fade-up-4{animation-delay:.4s}
+.float{animation:float 4s ease-in-out infinite}
+.toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:16px 20px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;animation:fadeUp .3s ease}
+.progress-bar{height:6px;border-radius:99px;background:var(--accent);overflow:hidden}
+.progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--primary),var(--amber));transition:width .4s}
+.hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+.hamburger span{width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+.mobile-menu{position:fixed;top:0;right:0;bottom:0;width:280px;background:var(--surface);z-index:400;padding:24px;box-shadow:var(--shadow-lg);transform:translateX(100%);transition:transform .3s;border-left:1.5px solid var(--border)}
+.mobile-menu.open{transform:translateX(0)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:99px;font-size:13px;font-weight:500;border:1.5px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:all .2s}
+.chip:hover,.chip.active{background:var(--accent);border-color:var(--primary);color:var(--primary)}
+.product-card{position:relative;overflow:hidden}
+.product-card .img-area{height:180px;border-radius:var(--radius-sm);overflow:hidden;margin-bottom:16px;background:var(--soft-surface);display:flex;align-items:center;justify-content:center;transition:all .25s}
+.product-card:hover .img-area{transform:scale(1.02)}
+.testimonial-card{background:var(--surface);border-radius:var(--radius);border:1.5px solid var(--border);padding:28px;box-shadow:var(--shadow)}
+.stars{color:#F59E0B;font-size:16px}
+.order-status{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700}
+.status-pending{background:#FEF9C3;color:#CA8A04}
+.dark .status-pending{background:rgba(251,191,36,0.15);color:#FBBF24}
+.status-process{background:#DBEAFE;color:#2563EB}
+.dark .status-process{background:rgba(37,99,235,0.15);color:#60A5FA}
+.status-done{background:#DCFCE7;color:#16A34A}
+.dark .status-done{background:rgba(34,197,94,0.15);color:#22C55E}
+.divider{height:1px;background:var(--border);margin:24px 0}
+table{width:100%;border-collapse:collapse}
+th{padding:12px 16px;text-align:left;font-size:13px;font-weight:700;color:var(--muted);border-bottom:2px solid var(--border)}
+td{padding:12px 16px;font-size:14px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+.admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+@media(max-width:900px){.admin-layout{grid-template-columns:1fr}}
+.sidebar{background:var(--surface);border-right:1.5px solid var(--border);padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+@media(max-width:900px){.sidebar{display:none}}
+.scroll-x{overflow-x:auto}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useCallback, useRef } = React;
+
+// ── Icons ──────────────────────────────────────────────────────────
+const Icon = ({ name, size=20, ...p }) => {
+  const el = useRef(null);
+  useEffect(()=>{
+    if(window.lucide && el.current){
+      el.current.innerHTML='';
+      const svg = window.lucide.createElement(name);
+      if(svg){ svg.setAttribute('width',size); svg.setAttribute('height',size); el.current.appendChild(svg); }
+    }
+  },[name,size]);
+  return <span ref={el} style={{display:'inline-flex',alignItems:'center',...(p.style||{})}} className={p.className}/>;
+};
+
+// ── Data ───────────────────────────────────────────────────────────
+const CATS = [
+  {id:'produk-digital',label:'Produk Digital',icon:'FileText',desc:'Template, file Canva, prompt AI, undangan digital'},
+  {id:'jasa-web',label:'Jasa Web',icon:'Globe',desc:'Landing page, website UMKM, web undangan, mini app'},
+  {id:'sistem-bisnis',label:'Sistem Bisnis',icon:'LayoutDashboard',desc:'Kasir F&B, kasir percetakan, inventory, invoice'},
+  {id:'percetakan',label:'Percetakan',icon:'Printer',desc:'Banner, stiker, lanyard, ID card, kartu nama'},
+  {id:'akun-digital',label:'Akun Digital',icon:'ShieldCheck',desc:'Voucher, tools premium, akun legal & resmi'},
+  {id:'barang-ready',label:'Barang Ready',icon:'ShoppingBag',desc:'Pakaian, aksesoris, merchandise, barang fisik'},
+];
+
+const PRODUCTS = [
+  {id:1,name:'Template Lanyard Premium',cat:'produk-digital',price:'Rp 45.000',badge:'Best Seller',desc:'Template lanyard siap edit format CDR, AI, PSD. Desain profesional & modern.',emoji:'🎨',tags:['Template','CDR/AI']},
+  {id:2,name:'Template Banner Sekolah',cat:'produk-digital',price:'Rp 35.000',badge:'Promo',desc:'Bundle template banner sekolah 10 desain, format CDR & PSD siap cetak.',emoji:'📐',tags:['Template','Banner']},
+  {id:3,name:'Prompt AI Bisnis Pack',cat:'produk-digital',price:'Rp 75.000',badge:'Best Seller',desc:'500+ prompt AI untuk copywriting, konten media sosial, dan bisnis digital.',emoji:'🤖',tags:['Prompt AI','ChatGPT']},
+  {id:4,name:'Template Undangan Digital',cat:'produk-digital',price:'Rp 55.000',badge:'New',desc:'Template undangan nikah digital responsif, siap kirim via WhatsApp.',emoji:'💌',tags:['Undangan','Web']},
+  {id:5,name:'Website UMKM Simple',cat:'jasa-web',price:'Rp 350.000',badge:'Ready',desc:'Website toko online sederhana untuk UMKM. Domain + hosting setahun.',emoji:'🌐',tags:['Website','UMKM']},
+  {id:6,name:'Landing Page Produk',cat:'jasa-web',price:'Rp 250.000',badge:'Custom',desc:'Landing page satu halaman untuk produk atau jasa, desain modern & responsif.',emoji:'📱',tags:['Landing Page','Custom']},
+  {id:7,name:'Kasir F&B Basic',cat:'sistem-bisnis',price:'Rp 500.000',badge:'Best Seller',desc:'Sistem kasir untuk warung, kafe, dan restoran. Laporan otomatis & mudah digunakan.',emoji:'☕',tags:['POS','F&B']},
+  {id:8,name:'Kasir Percetakan Pro',cat:'sistem-bisnis',price:'Rp 750.000',badge:'Custom',desc:'Sistem kasir khusus percetakan dengan manajemen order, estimasi, dan invoice.',emoji:'🖨️',tags:['POS','Percetakan']},
+  {id:9,name:'Sistem Toko Online UMKM',cat:'sistem-bisnis',price:'Rp 1.200.000',badge:'Custom',desc:'Platform toko online lengkap: produk, order, pembayaran, laporan. Siap pakai.',emoji:'🛒',tags:['E-commerce','UMKM']},
+  {id:10,name:'Banner Custom Outdoor',cat:'percetakan',price:'Rp 120.000',badge:'Ready',desc:'Cetak banner vinyl outdoor 1x2m. Material premium, warna tajam, tahan cuaca.',emoji:'🖼️',tags:['Cetak','Outdoor']},
+  {id:11,name:'ID Card & Lanyard Set',cat:'percetakan',price:'Rp 95.000',badge:'Promo',desc:'ID card PVC print full color + lanyard custom logo. Min order 10 pcs.',emoji:'🪪',tags:['ID Card','Lanyard']},
+  {id:12,name:'Akun Tools Premium Legal',cat:'akun-digital',price:'Rp 85.000',badge:'Ready',desc:'Akses tools premium resmi bergaransi. Legal, original, mengikuti TOS platform.',emoji:'🔑',tags:['Tools','Legal']},
+  {id:13,name:'Hoodie Custom Print',cat:'barang-ready',price:'Rp 175.000',badge:'Ready',desc:'Hoodie cotton fleece custom desain. Print DTF berkualitas, awet & tidak mudah pudar.',emoji:'👕',tags:['Hoodie','Custom']},
+  {id:14,name:'Stiker Cutting Custom',cat:'percetakan',price:'Rp 25.000',badge:'Promo',desc:'Stiker cutting vinyl premium berbagai ukuran. Tahan air & sinar matahari.',emoji:'✨',tags:['Stiker','Vinyl']},
+  {id:15,name:'Kartu Nama Premium',cat:'percetakan',price:'Rp 55.000',badge:'Best Seller',desc:'Kartu nama laminasi doff/glossy 260gsm. 1 sisi/2 sisi. Min 50 lembar.',emoji:'📋',tags:['Kartu Nama','Premium']},
+  {id:16,name:'Inventory & Invoice',cat:'sistem-bisnis',price:'Rp 850.000',badge:'Custom',desc:'Sistem inventory stok barang + invoice otomatis. Dashboard owner real-time.',emoji:'📊',tags:['Inventory','Invoice']},
+];
+
+const TESTIMONIALS = [
+  {name:'Rina Marlina',role:'Pemilik Kafe Coklat',text:'Kasir F&B dari Sky Creative beneran membantu banget! Laporan hariannya akurat dan tampilan kasirnya bersih. Recommended!',stars:5,avatar:'RM'},
+  {name:'Doni Prasetyo',role:'Owner Percetakan Doni',text:'Order banner dan lanyard custom selalu memuaskan. Kualitas cetak bagus, pengiriman tepat waktu. Sudah langganan 2 tahun.',stars:5,avatar:'DP'},
+  {name:'Siti Rahmawati',role:'UMKM Baju Batik',text:'Template Canva-nya keren semua! Langsung bisa edit sendiri untuk jualan online. Harga terjangkau, kualitas premium.',stars:5,avatar:'SR'},
+  {name:'Budi Santoso',role:'Freelancer Desain',text:'Prompt AI Bisnis Pack sangat worth it! Hemat waktu buat konten. Support-nya juga responsif dan helpful.',stars:5,avatar:'BS'},
+];
+
+const ORDERS_DUMMY = [
+  {id:'SKY-2026-001',product:'Template Lanyard Premium',status:'done',date:'20 Mei 2026',name:'Budi S.',total:'Rp 45.000'},
+  {id:'SKY-2026-002',product:'Kasir F&B Basic',status:'process',date:'22 Mei 2026',name:'Rina M.',total:'Rp 500.000'},
+  {id:'SKY-2026-003',product:'Banner Custom Outdoor',status:'pending',date:'24 Mei 2026',name:'Ahmad K.',total:'Rp 120.000'},
+];
+
+const WHY_US = [
+  {icon:'Settings',title:'Bisa Custom',desc:'Semua produk & jasa bisa disesuaikan kebutuhan bisnis Anda.'},
+  {icon:'Store',title:'Cocok untuk UMKM',desc:'Harga terjangkau, fitur lengkap, cocok untuk semua skala usaha.'},
+  {icon:'Layers',title:'Banyak Kategori',desc:'Satu platform untuk digital, jasa, cetak, sistem, dan barang fisik.'},
+  {icon:'Zap',title:'Order Mudah',desc:'Pesan langsung via website atau WhatsApp, proses cepat & transparan.'},
+  {icon:'MessageCircle',title:'Bisa Konsultasi',desc:'Tim kami siap bantu konsultasi kebutuhan bisnis digital Anda gratis.'},
+  {icon:'BarChart2',title:'Dashboard Admin',desc:'Setiap sistem bisnis dilengkapi panel admin & laporan otomatis.'},
+];
+
+const BUSINESS_SYSTEMS = [
+  {icon:'Coffee',title:'Kasir F&B',desc:'POS kafe, warung makan, restoran. Mudah digunakan.',price:'Mulai Rp 500rb',color:'#F97316'},
+  {icon:'Printer',title:'Kasir Percetakan',desc:'Manajemen order cetak, estimasi harga, invoice.',price:'Mulai Rp 750rb',color:'#F59E0B'},
+  {icon:'ShoppingCart',title:'Toko Online UMKM',desc:'Platform toko online siap pakai dengan admin panel.',price:'Mulai Rp 1,2jt',color:'#22C55E'},
+  {icon:'Package',title:'Inventory & Invoice',desc:'Kelola stok barang & buat invoice otomatis.',price:'Mulai Rp 850rb',color:'#7C3AED'},
+];
+
+const NAV_LINKS = [
+  {id:'home',label:'Home'},
+  {id:'produk-digital',label:'Produk Digital'},
+  {id:'jasa-web',label:'Jasa Web'},
+  {id:'sistem-bisnis',label:'Sistem Bisnis'},
+  {id:'percetakan',label:'Percetakan'},
+  {id:'akun-digital',label:'Akun Digital'},
+  {id:'barang-ready',label:'Barang Ready'},
+  {id:'cek-order',label:'Cek Order'},
+];
+
+const ADMIN_MENU = [
+  {icon:'LayoutDashboard',label:'Dashboard'},{icon:'ShoppingCart',label:'Orderan'},
+  {icon:'Package',label:'Produk'},{icon:'Monitor',label:'Sistem Bisnis'},
+  {icon:'Globe',label:'Jasa Web'},{icon:'FileText',label:'Produk Digital'},
+  {icon:'Printer',label:'Percetakan'},{icon:'ShieldCheck',label:'Akun Digital'},
+  {icon:'ShoppingBag',label:'Barang Ready'},{icon:'Users',label:'Customer'},
+  {icon:'Megaphone',label:'Konten Promosi'},{icon:'TrendingUp',label:'Ads Tracker'},
+  {icon:'BarChart2',label:'Laporan'},{icon:'Settings',label:'Pengaturan'},
+];
+
+// ── Toast ──────────────────────────────────────────────────────────
+function Toast({msg,type='success',onClose}){
+  useEffect(()=>{const t=setTimeout(onClose,3000);return()=>clearTimeout(t)},[]);
+  return <div className="toast"><span style={{color:type==='success'?'var(--success)':'var(--danger)',fontSize:18}}>
+    {type==='success'?'✓':'✗'}</span>{msg}</div>;
+}
+
+// ── Header ─────────────────────────────────────────────────────────
+function Header({dark,toggleDark,page,setPage,cart,setShowCart}){
+  const [mob,setMob]=useState(false);
+  const [search,setSearch]=useState('');
+  const [searchRes,setSearchRes]=useState([]);
+  const handleSearch=(v)=>{
+    setSearch(v);
+    if(v.length>1) setSearchRes(PRODUCTS.filter(p=>p.name.toLowerCase().includes(v.toLowerCase())).slice(0,5));
+    else setSearchRes([]);
+  };
+  return(<>
+    <header className="sticky" style={{background:'var(--surface)',borderBottom:'1.5px solid var(--border)',boxShadow:'var(--shadow)'}}>
+      <div className="container" style={{display:'flex',alignItems:'center',gap:16,padding:'14px 20px',maxWidth:'100%'}}>
+        <div style={{display:'flex',alignItems:'center',gap:10,cursor:'pointer',flexShrink:0}} onClick={()=>setPage('home')}>
+          <div style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,var(--primary),var(--amber))',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:900,fontSize:16}}>S</div>
+          <span style={{fontWeight:800,fontSize:17,letterSpacing:'-0.5px'}}><span className="gradient-text">Sky</span> Creative</span>
+        </div>
+        <nav style={{display:'flex',gap:2,flex:1,overflowX:'auto',scrollbarWidth:'none'}} className="desktop-nav">
+          <style>{`.desktop-nav{display:flex}@media(max-width:900px){.desktop-nav{display:none}}`}</style>
+          {NAV_LINKS.map(l=>(
+            <button key={l.id} onClick={()=>setPage(l.id)} style={{background:'none',border:'none',padding:'8px 12px',borderRadius:8,fontSize:13,fontWeight:page===l.id?700:500,color:page===l.id?'var(--primary)':'var(--muted)',whiteSpace:'nowrap',transition:'all .2s'}}>
+              {l.label}
+            </button>
+          ))}
+        </nav>
+        <div style={{position:'relative',flexShrink:0}} className="search-wrap">
+          <style>{`.search-wrap{display:flex}@media(max-width:700px){.search-wrap{display:none}}`}</style>
+          <input value={search} onChange={e=>handleSearch(e.target.value)} placeholder="Cari produk..." className="input-field" style={{width:200,padding:'8px 12px 8px 36px',fontSize:13}}/>
+          <span style={{position:'absolute',left:10,top:'50%',transform:'translateY(-50%)',opacity:.5,pointerEvents:'none'}}><Icon name="Search" size={15}/></span>
+          {searchRes.length>0&&<div style={{position:'absolute',top:'calc(100% + 8px)',left:0,right:0,background:'var(--surface)',border:'1.5px solid var(--border)',borderRadius:12,overflow:'hidden',zIndex:200,boxShadow:'var(--shadow-lg)'}}>
+            {searchRes.map(r=><div key={r.id} onClick={()=>{setPage(r.cat);setSearch('');setSearchRes([])}} style={{padding:'10px 14px',cursor:'pointer',fontSize:13,display:'flex',gap:8,alignItems:'center',borderBottom:'1px solid var(--border)'}} className="search-item">
+              <style>{`.search-item:hover{background:var(--accent)}`}</style>
+              <span>{r.emoji}</span><div><div style={{fontWeight:600}}>{r.name}</div><div style={{color:'var(--muted)',fontSize:11}}>{r.price}</div></div>
+            </div>)}
+          </div>}
+        </div>
+        <div style={{display:'flex',alignItems:'center',gap:8,flexShrink:0}}>
+          <button onClick={toggleDark} style={{background:'var(--accent)',border:'none',borderRadius:10,width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',color:'var(--primary)'}}><Icon name={dark?'Sun':'Moon'} size={16}/></button>
+          <button onClick={()=>setShowCart(true)} style={{background:'var(--accent)',border:'none',borderRadius:10,width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',color:'var(--primary)',position:'relative'}}>
+            <Icon name="ShoppingCart" size={16}/>
+            {cart.length>0&&<span style={{position:'absolute',top:4,right:4,width:14,height:14,borderRadius:'50%',background:'var(--primary)',color:'#fff',fontSize:9,fontWeight:800,display:'flex',alignItems:'center',justifyContent:'center'}}>{cart.length}</span>}
+          </button>
+          <button onClick={()=>setPage('dashboard-admin')} style={{background:'var(--accent)',border:'none',borderRadius:10,width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',color:'var(--primary)'}} className="desktop-only">
+            <style>{`.desktop-only{display:flex}@media(max-width:900px){.desktop-only{display:none}}`}</style>
+            <Icon name="LayoutDashboard" size={16}/>
+          </button>
+          <div className="hamburger mob-only" onClick={()=>setMob(true)} style={{background:'var(--accent)',borderRadius:10,padding:8}}>
+            <style>{`.mob-only{display:none}@media(max-width:900px){.mob-only{display:flex !important}}`}</style>
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </header>
+    {mob&&<div className="overlay" onClick={()=>setMob(false)}/>}
+    <div className={`mobile-menu ${mob?'open':''}`}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24}}>
+        <span style={{fontWeight:800,fontSize:16}}><span className="gradient-text">Sky</span> Creative</span>
+        <button onClick={()=>setMob(false)} style={{background:'none',border:'none',fontSize:22,cursor:'pointer',color:'var(--muted)'}}>✕</button>
+      </div>
+      {NAV_LINKS.map(l=>(
+        <button key={l.id} onClick={()=>{setPage(l.id);setMob(false)}} style={{display:'block',width:'100%',textAlign:'left',background:page===l.id?'var(--accent)':'none',border:'none',padding:'12px 14px',borderRadius:10,fontSize:14,fontWeight:page===l.id?700:500,color:page===l.id?'var(--primary)':'var(--text)',marginBottom:4,cursor:'pointer'}}>{l.label}</button>
+      ))}
+      <div className="divider"/>
+      <button onClick={()=>{setPage('dashboard-admin');setMob(false)}} style={{display:'flex',alignItems:'center',gap:8,width:'100%',textAlign:'left',background:'none',border:'none',padding:'12px 14px',borderRadius:10,fontSize:14,fontWeight:500,color:'var(--muted)',cursor:'pointer'}}><Icon name="LayoutDashboard" size={16}/>Admin Panel</button>
+    </div>
+  </>);
+}
+
+// ── Hero ────────────────────────────────────────────────────────────
+function Hero({setPage,setShowOrder}){
+  return(<section className="hero-bg" style={{padding:'100px 0 80px',position:'relative'}}>
+    <div className="hero-orb" style={{width:400,height:400,background:'var(--primary)',top:-100,right:-80,opacity:.15}}/>
+    <div className="hero-orb" style={{width:300,height:300,background:'var(--amber)',bottom:-80,left:-60,opacity:.12}}/>
+    <div className="container" style={{position:'relative',zIndex:1}}>
+      <div style={{maxWidth:720,margin:'0 auto',textAlign:'center'}}>
+        <div className="tag fade-up">⚡ Sky Creative Store</div>
+        <h1 className="fade-up fade-up-1" style={{fontSize:'clamp(32px,5vw,60px)',fontWeight:900,lineHeight:1.1,letterSpacing:'-2px',marginBottom:24}}>
+          Satu toko untuk <span className="gradient-text">produk digital</span>, jasa website, sistem bisnis, percetakan & jualan online
+        </h1>
+        <p className="fade-up fade-up-2" style={{fontSize:'clamp(15px,2vw,18px)',color:'var(--muted)',lineHeight:1.7,marginBottom:40,maxWidth:580,margin:'0 auto 40px'}}>
+          Beli template digital, pesan website, cek demo sistem kasir, order percetakan, sampai produk fisik — semua dalam satu platform terpercaya.
+        </p>
+        <div className="fade-up fade-up-3" style={{display:'flex',gap:12,flexWrap:'wrap',justifyContent:'center',marginBottom:48}}>
+          <button className="btn btn-primary btn-lg" onClick={()=>document.getElementById('products')?.scrollIntoView({behavior:'smooth'})}><Icon name="Layers" size={18}/>Lihat Produk</button>
+          <a href="https://wa.me/628123456789?text=Halo, saya ingin konsultasi" target="_blank" className="btn btn-outline btn-lg"><Icon name="MessageCircle" size={18}/>Konsultasi WhatsApp</a>
+          <button className="btn btn-ghost btn-lg" onClick={()=>setPage('sistem-bisnis')}><Icon name="Monitor" size={18}/>Cek Demo Sistem</button>
+        </div>
+        <div className="fade-up fade-up-4" style={{display:'flex',gap:32,justifyContent:'center',flexWrap:'wrap'}}>
+          {[['200+','Produk & Jasa'],['500+','Pelanggan Puas'],['6','Kategori Lengkap']].map(([n,l])=>(
+            <div key={n} style={{textAlign:'center'}}>
+              <div style={{fontSize:28,fontWeight:900,color:'var(--primary)'}}>{n}</div>
+              <div style={{fontSize:13,color:'var(--muted)',fontWeight:500}}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>);
+}
+
+// ── Categories Section ──────────────────────────────────────────────
+function CategoriesSection({setPage}){
+  return(<section className="section" style={{background:'var(--soft-surface)'}}>
+    <div className="container">
+      <div className="tag">Kategori Utama</div>
+      <h2 className="section-title">Temukan semua yang kamu butuhkan</h2>
+      <div className="grid-3">
+        {CATS.map(c=>(
+          <div key={c.id} className="card" style={{padding:28,cursor:'pointer'}} onClick={()=>setPage(c.id)}>
+            <div style={{display:'flex',alignItems:'flex-start',gap:16,marginBottom:16}}>
+              <div className="icon-box" style={{width:52,height:52,borderRadius:16}}>
+                <Icon name={c.icon} size={24}/>
+              </div>
+              <div>
+                <h3 style={{fontSize:17,fontWeight:700,marginBottom:4}}>{c.label}</h3>
+                <p style={{fontSize:13,color:'var(--muted)',lineHeight:1.5}}>{c.desc}</p>
+              </div>
+            </div>
+            <button style={{background:'none',border:'none',color:'var(--primary)',fontWeight:600,fontSize:13,display:'flex',alignItems:'center',gap:4,cursor:'pointer',padding:0}}>Lihat Produk <Icon name="ArrowRight" size={14}/></button>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>);
+}
+
+// ── Product Card ────────────────────────────────────────────────────
+function ProductCard({p,addToCart,setShowOrder,setSelectedProduct}){
+  const badgeClass={'Best Seller':'badge-best',Promo:'badge-promo',Ready:'badge-ready',Custom:'badge-custom',New:'badge-new'}[p.badge]||'badge-new';
+  const EMOJIS_BG={'produk-digital':'linear-gradient(135deg,#FFEDD5,#FEF3C7)','jasa-web':'linear-gradient(135deg,#DBEAFE,#EDE9FE)','sistem-bisnis':'linear-gradient(135deg,#DCFCE7,#CCFBF1)','percetakan':'linear-gradient(135deg,#FCE7F3,#FBCFE8)','akun-digital':'linear-gradient(135deg,#F0FDF4,#DCFCE7)','barang-ready':'linear-gradient(135deg,#FFF7ED,#FFEDD5)'};
+  return(<div className="card product-card" style={{padding:20}}>
+    <div className="img-area" style={{background:EMOJIS_BG[p.cat]||'var(--soft-surface)',position:'relative'}}>
+      <span style={{fontSize:56}}>{p.emoji}</span>
+      <span className={`badge ${badgeClass}`} style={{position:'absolute',top:10,left:10}}>{p.badge}</span>
+    </div>
+    <div style={{display:'flex',gap:6,marginBottom:10,flexWrap:'wrap'}}>
+      {p.tags.map(t=><span key={t} style={{fontSize:11,fontWeight:600,padding:'3px 8px',borderRadius:6,background:'var(--accent)',color:'var(--primary)'}}>{t}</span>)}
+    </div>
+    <h3 style={{fontSize:15,fontWeight:700,marginBottom:6,lineHeight:1.3}}>{p.name}</h3>
+    <p style={{fontSize:13,color:'var(--muted)',marginBottom:14,lineHeight:1.5}}>{p.desc}</p>
+    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
+      <span style={{fontSize:18,fontWeight:800,color:'var(--primary)'}}>{p.price}</span>
+    </div>
+    <div style={{display:'flex',gap:8}}>
+      <button className="btn btn-primary" style={{flex:1,justifyContent:'center',padding:'10px 12px',fontSize:13}} onClick={()=>addToCart(p)}><Icon name="ShoppingCart" size={14}/>Keranjang</button>
+      <a href={`https://wa.me/628123456789?text=Halo, saya tertarik dengan ${p.name} (${p.price})`} target="_blank" className="btn btn-ghost" style={{padding:'10px 12px',justifyContent:'center'}}><Icon name="MessageCircle" size={14}/></a>
+      <button className="btn btn-outline" style={{padding:'10px 12px',justifyContent:'center'}} onClick={()=>{setSelectedProduct(p);setShowOrder(true)}}><Icon name="Eye" size={14}/></button>
+    </div>
+  </div>);
+}
+
+// ── Products Section ────────────────────────────────────────────────
+function ProductsSection({addToCart,setShowOrder,setSelectedProduct,filterCat}){
+  const [cat,setCat]=useState(filterCat||'all');
+  const [search,setSearch]=useState('');
+  const filtered=PRODUCTS.filter(p=>(cat==='all'||p.cat===cat)&&(search===''||p.name.toLowerCase().includes(search.toLowerCase())));
+  useEffect(()=>{if(filterCat)setCat(filterCat)},[filterCat]);
+  return(<section className="section" id="products">
+    <div className="container">
+      <div className="tag">Produk</div>
+      <h2 className="section-title">Produk & Jasa Populer</h2>
+      <div style={{display:'flex',gap:10,flexWrap:'wrap',marginBottom:32,alignItems:'center'}}>
+        <div style={{position:'relative',flex:'1 1 200px',maxWidth:280}}>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari produk..." className="input-field" style={{paddingLeft:36,fontSize:13}}/>
+          <span style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',opacity:.5,pointerEvents:'none'}}><Icon name="Search" size={14}/></span>
+        </div>
+        {[{id:'all',label:'Semua'},...CATS.map(c=>({id:c.id,label:c.label}))].map(c=>(
+          <button key={c.id} className={`chip ${cat===c.id?'active':''}`} onClick={()=>setCat(c.id)} style={{fontSize:12}}>{c.label}</button>
+        ))}
+      </div>
+      {filtered.length===0?<div style={{textAlign:'center',padding:60,color:'var(--muted)'}}>Produk tidak ditemukan 🔍</div>
+        :<div className="grid-4">
+          {filtered.map(p=><ProductCard key={p.id} p={p} addToCart={addToCart} setShowOrder={setShowOrder} setSelectedProduct={setSelectedProduct}/>)}
+        </div>}
+    </div>
+  </section>);
+}
+
+// ── Business Systems Section ────────────────────────────────────────
+function BusinessSection({setPage}){
+  return(<section className="section" style={{background:'var(--soft-surface)'}}>
+    <div className="container">
+      <div className="tag">Sistem Bisnis</div>
+      <h2 className="section-title">Sistem kasir & manajemen bisnis</h2>
+      <p className="section-sub">Solusi digital untuk UMKM yang ingin berkembang lebih cepat dengan sistem terintegrasi.</p>
+      <div className="grid-4" style={{marginBottom:48}}>
+        {BUSINESS_SYSTEMS.map(s=>(
+          <div key={s.title} className="card" style={{padding:24,borderTop:`3px solid ${s.color}`}}>
+            <div style={{width:48,height:48,borderRadius:14,background:`${s.color}18`,display:'flex',alignItems:'center',justifyContent:'center',color:s.color,marginBottom:16}}>
+              <Icon name={s.icon} size={24}/>
+            </div>
+            <h3 style={{fontSize:16,fontWeight:700,marginBottom:8}}>{s.title}</h3>
+            <p style={{fontSize:13,color:'var(--muted)',marginBottom:16,lineHeight:1.5}}>{s.desc}</p>
+            <div style={{fontWeight:800,color:s.color,fontSize:15,marginBottom:16}}>{s.price}</div>
+            <div style={{display:'flex',gap:8}}>
+              <button className="btn btn-primary btn-sm" style={{background:s.color,flex:1,justifyContent:'center',boxShadow:'none'}}>Lihat Demo</button>
+              <a href="https://wa.me/628123456789" target="_blank" className="btn btn-ghost btn-sm"><Icon name="MessageCircle" size={14}/></a>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{background:'linear-gradient(135deg,var(--primary),var(--amber))',borderRadius:'var(--radius)',padding:'40px 48px',color:'#fff',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:24}}>
+        <div>
+          <h3 style={{fontSize:24,fontWeight:800,marginBottom:8}}>Butuh sistem khusus untuk bisnis Anda?</h3>
+          <p style={{opacity:.9,fontSize:15}}>Kami bisa custom sesuai alur bisnis dan kebutuhan spesifik Anda.</p>
+        </div>
+        <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+          <a href="https://wa.me/628123456789?text=Halo, saya ingin pesan sistem custom" target="_blank" style={{background:'rgba(255,255,255,0.2)',border:'2px solid rgba(255,255,255,0.5)',color:'#fff',padding:'12px 24px',borderRadius:12,fontWeight:700,fontSize:14,display:'flex',alignItems:'center',gap:8,backdropFilter:'blur(8px)'}}>Konsultasi Gratis</a>
+          <button onClick={()=>setPage('sistem-bisnis')} style={{background:'#fff',border:'none',color:'var(--primary)',padding:'12px 24px',borderRadius:12,fontWeight:700,fontSize:14,cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>Lihat Semua Sistem</button>
+        </div>
+      </div>
+    </div>
+  </section>);
+}
+
+// ── Why Us ──────────────────────────────────────────────────────────
+function WhyUsSection(){
+  return(<section className="section">
+    <div className="container">
+      <div className="tag">Kenapa Kami</div>
+      <h2 className="section-title">Kenapa pilih Sky Creative Store?</h2>
+      <p className="section-sub">Kami bukan sekadar toko online biasa. Kami partner digital UMKM Indonesia.</p>
+      <div className="grid-3">
+        {WHY_US.map(w=>(
+          <div key={w.title} style={{display:'flex',gap:16,padding:'24px',background:'var(--surface)',borderRadius:'var(--radius)',border:'1.5px solid var(--border)'}}>
+            <div className="icon-box"><Icon name={w.icon} size={22}/></div>
+            <div>
+              <h3 style={{fontSize:16,fontWeight:700,marginBottom:6}}>{w.title}</h3>
+              <p style={{fontSize:13,color:'var(--muted)',lineHeight:1.5}}>{w.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>);
+}
+
+// ── Testimonials ────────────────────────────────────────────────────
+function TestimonialsSection(){
+  return(<section className="section" style={{background:'var(--soft-surface)'}}>
+    <div className="container">
+      <div className="tag">Testimoni</div>
+      <h2 className="section-title">Apa kata pelanggan kami?</h2>
+      <div className="grid-4">
+        {TESTIMONIALS.map(t=>(
+          <div key={t.name} className="testimonial-card">
+            <div className="stars">{'★'.repeat(t.stars)}</div>
+            <p style={{fontSize:14,lineHeight:1.7,color:'var(--text)',margin:'12px 0 20px',fontStyle:'italic'}}>"{t.text}"</p>
+            <div style={{display:'flex',alignItems:'center',gap:12}}>
+              <div style={{width:40,height:40,borderRadius:'50%',background:'linear-gradient(135deg,var(--primary),var(--amber))',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:800,fontSize:13,flexShrink:0}}>{t.avatar}</div>
+              <div>
+                <div style={{fontWeight:700,fontSize:14}}>{t.name}</div>
+                <div style={{fontSize:12,color:'var(--muted)'}}>{t.role}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>);
+}
+
+// ── Footer ──────────────────────────────────────────────────────────
+function Footer({setPage}){
+  return(<footer style={{background:'var(--surface)',borderTop:'1.5px solid var(--border)',padding:'60px 0 32px'}}>
+    <div className="container">
+      <div style={{display:'grid',gridTemplateColumns:'2fr 1fr 1fr 1fr',gap:40,marginBottom:48,flexWrap:'wrap'}}>
+        <div>
+          <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:16}}>
+            <div style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,var(--primary),var(--amber))',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:900,fontSize:16}}>S</div>
+            <span style={{fontWeight:800,fontSize:17}}><span className="gradient-text">Sky</span> Creative Store</span>
+          </div>
+          <p style={{fontSize:13,color:'var(--muted)',lineHeight:1.7,maxWidth:260,marginBottom:20}}>Toko digital kreatif untuk UMKM Indonesia. Produk digital, jasa web, sistem bisnis, percetakan & lebih banyak lagi.</p>
+          <div style={{display:'flex',gap:10}}>
+            {['Instagram','Youtube','Twitter'].map(s=>(
+              <a key={s} href="#" style={{width:36,height:36,borderRadius:10,background:'var(--accent)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--primary)'}}>
+                <Icon name={s==='Instagram'?'Instagram':s==='Youtube'?'Youtube':'Twitter'} size={16}/>
+              </a>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h4 style={{fontWeight:700,marginBottom:16,fontSize:14}}>Kategori</h4>
+          {CATS.map(c=><button key={c.id} onClick={()=>setPage(c.id)} style={{display:'block',background:'none',border:'none',color:'var(--muted)',fontSize:13,padding:'4px 0',cursor:'pointer',textAlign:'left'}}>{c.label}</button>)}
+        </div>
+        <div>
+          <h4 style={{fontWeight:700,marginBottom:16,fontSize:14}}>Informasi</h4>
+          {['Tentang Kami','Cara Order','Cek Status Order','Kebijakan Privasi','Syarat & Ketentuan'].map(l=><a key={l} href="#" style={{display:'block',color:'var(--muted)',fontSize:13,padding:'4px 0'}}>{l}</a>)}
+        </div>
+        <div>
+          <h4 style={{fontWeight:700,marginBottom:16,fontSize:14}}>Kontak</h4>
+          <div style={{display:'flex',flexDirection:'column',gap:10}}>
+            <a href="https://wa.me/628123456789" target="_blank" style={{display:'flex',alignItems:'center',gap:8,color:'var(--success)',fontSize:13,fontWeight:600}}>
+              <Icon name="MessageCircle" size={16}/> WhatsApp: 0812-3456-789
+            </a>
+            <a href="mailto:hello@skycreative.id" style={{display:'flex',alignItems:'center',gap:8,color:'var(--muted)',fontSize:13}}>
+              <Icon name="Mail" size={14}/> hello@skycreative.id
+            </a>
+            <span style={{display:'flex',alignItems:'center',gap:8,color:'var(--muted)',fontSize:13}}>
+              <Icon name="MapPin" size={14}/> Indonesia
+            </span>
+          </div>
+          <a href="https://wa.me/628123456789?text=Halo%20Sky%20Creative%20Store,%20saya%20ingin%20konsultasi" target="_blank" className="btn btn-primary" style={{marginTop:20,justifyContent:'center',width:'100%',fontSize:13}}>
+            <Icon name="MessageCircle" size={14}/>Chat WhatsApp
+          </a>
+        </div>
+      </div>
+      <div className="divider"/>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:12}}>
+        <p style={{fontSize:13,color:'var(--muted)'}}>© 2026 Sky Creative Store. Semua hak dilindungi.</p>
+        <p style={{fontSize:13,color:'var(--muted)'}}>Made with ❤️ for UMKM Indonesia</p>
+      </div>
+    </div>
+  </footer>);
+}
+
+// ── Order Modal ─────────────────────────────────────────────────────
+function OrderModal({product,onClose,addToast}){
+  const [form,setForm]=useState({name:'',wa:'',email:'',product:product?.name||'',note:'',file:null});
+  const [done,setDone]=useState(false);
+  const [orderId,setOrderId]=useState('');
+  const num=String(Math.floor(Math.random()*900)+100).padStart(3,'0');
+  const submit=()=>{
+    if(!form.name||!form.wa){addToast('Lengkapi nama dan nomor WhatsApp','danger');return;}
+    const id=`SKY-2026-${num}`;setOrderId(id);setDone(true);
+  };
+  if(done)return(<div className="modal"><div className="overlay" onClick={onClose}/><div className="modal-box" style={{textAlign:'center'}}>
+    <div style={{fontSize:60,marginBottom:16}}>🎉</div>
+    <h2 style={{fontSize:22,fontWeight:800,marginBottom:8}}>Order Berhasil!</h2>
+    <p style={{color:'var(--muted)',marginBottom:24}}>Nomor order kamu:</p>
+    <div style={{background:'var(--accent)',borderRadius:12,padding:'16px 24px',fontSize:24,fontWeight:900,color:'var(--primary)',letterSpacing:2,marginBottom:24}}>{orderId}</div>
+    <p style={{fontSize:13,color:'var(--muted)',marginBottom:24,lineHeight:1.6}}>Simpan nomor order ini untuk cek status. Tim kami akan menghubungi via WhatsApp dalam 1x24 jam.</p>
+    <div style={{display:'flex',gap:12}}>
+      <a href={`https://wa.me/628123456789?text=Halo, order saya ${orderId}`} target="_blank" className="btn btn-primary" style={{flex:1,justifyContent:'center'}}><Icon name="MessageCircle" size={16}/>Konfirmasi WA</a>
+      <button className="btn btn-ghost" style={{flex:1,justifyContent:'center'}} onClick={onClose}>Tutup</button>
+    </div>
+  </div></div>);
+  return(<div className="modal"><div className="overlay" onClick={onClose}/><div className="modal-box">
+    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24}}>
+      <h2 style={{fontSize:20,fontWeight:800}}>Form Order</h2>
+      <button onClick={onClose} style={{background:'none',border:'none',fontSize:20,cursor:'pointer',color:'var(--muted)'}}>✕</button>
+    </div>
+    {product&&<div style={{background:'var(--accent)',borderRadius:12,padding:'12px 16px',marginBottom:20,display:'flex',gap:12,alignItems:'center'}}>
+      <span style={{fontSize:32}}>{product.emoji}</span>
+      <div><div style={{fontWeight:700,fontSize:15}}>{product.name}</div><div style={{color:'var(--primary)',fontWeight:800}}>{product.price}</div></div>
+    </div>}
+    <div style={{display:'flex',flexDirection:'column',gap:14}}>
+      {[['Nama Lengkap','name','text'],['Nomor WhatsApp','wa','tel'],['Email (opsional)','email','email']].map(([label,key,type])=>(
+        <div key={key}>
+          <label style={{fontSize:13,fontWeight:600,marginBottom:6,display:'block'}}>{label}</label>
+          <input className="input-field" type={type} placeholder={label} value={form[key]} onChange={e=>setForm({...form,[key]:e.target.value})}/>
+        </div>
+      ))}
+      <div>
+        <label style={{fontSize:13,fontWeight:600,marginBottom:6,display:'block'}}>Produk/Jasa</label>
+        <input className="input-field" value={form.product} onChange={e=>setForm({...form,product:e.target.value})} placeholder="Nama produk atau jasa"/>
+      </div>
+      <div>
+        <label style={{fontSize:13,fontWeight:600,marginBottom:6,display:'block'}}>Catatan (opsional)</label>
+        <textarea className="input-field" rows={3} placeholder="Catatan atau detail tambahan..." value={form.note} onChange={e=>setForm({...form,note:e.target.value})} style={{resize:'vertical'}}/>
+      </div>
+      <div>
+        <label style={{fontSize:13,fontWeight:600,marginBottom:6,display:'block'}}>Upload File (opsional)</label>
+        <input type="file" className="input-field" onChange={e=>setForm({...form,file:e.target.files[0]})} style={{padding:10}}/>
+        <p style={{fontSize:11,color:'var(--muted)',marginTop:4}}>Format: JPG, PNG, PDF, CDR. Maks 10MB</p>
+      </div>
+      <button className="btn btn-primary" style={{justifyContent:'center',marginTop:8}} onClick={submit}><Icon name="Send" size={16}/>Kirim Order</button>
+    </div>
+  </div></div>);
+}
+
+// ── Cart Drawer ─────────────────────────────────────────────────────
+function CartDrawer({cart,setCart,onClose,setShowOrder}){
+  const total=cart.reduce((a,c)=>a+parseInt(c.price.replace(/\D/g,'')),0);
+  return(<>
+    <div className="overlay" onClick={onClose}/>
+    <div style={{position:'fixed',top:0,right:0,bottom:0,width:360,background:'var(--surface)',zIndex:500,padding:24,borderLeft:'1.5px solid var(--border)',boxShadow:'var(--shadow-lg)',overflowY:'auto'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24}}>
+        <h2 style={{fontSize:18,fontWeight:800}}>Keranjang ({cart.length})</h2>
+        <button onClick={onClose} style={{background:'none',border:'none',fontSize:20,cursor:'pointer',color:'var(--muted)'}}>✕</button>
+      </div>
+      {cart.length===0?<div style={{textAlign:'center',padding:60,color:'var(--muted)'}}>
+        <div style={{fontSize:48,marginBottom:16}}>🛒</div>Keranjang masih kosong
+      </div>:<>
+        {cart.map((item,i)=>(
+          <div key={i} style={{display:'flex',gap:12,alignItems:'center',padding:'14px 0',borderBottom:'1px solid var(--border)'}}>
+            <span style={{fontSize:28}}>{item.emoji}</span>
+            <div style={{flex:1}}>
+              <div style={{fontWeight:600,fontSize:14}}>{item.name}</div>
+              <div style={{color:'var(--primary)',fontWeight:700,fontSize:14}}>{item.price}</div>
+            </div>
+            <button onClick={()=>setCart(cart.filter((_,j)=>j!==i))} style={{background:'var(--accent)',border:'none',borderRadius:8,width:28,height:28,cursor:'pointer',color:'var(--danger)',fontSize:16}}>×</button>
+          </div>
+        ))}
+        <div style={{marginTop:20,padding:'16px',background:'var(--accent)',borderRadius:12}}>
+          <div style={{display:'flex',justifyContent:'space-between',fontWeight:700,fontSize:16,marginBottom:4}}>
+            <span>Total</span><span style={{color:'var(--primary)'}}>Rp {total.toLocaleString('id')}</span>
+          </div>
+          <p style={{fontSize:12,color:'var(--muted)'}}>*Belum termasuk ongkos kirim</p>
+        </div>
+        <div style={{display:'flex',gap:10,marginTop:16}}>
+          <button className="btn btn-primary" style={{flex:1,justifyContent:'center'}} onClick={()=>{setShowOrder(true);onClose();}}>Checkout</button>
+          <a href={`https://wa.me/628123456789?text=Halo, saya ingin order: ${cart.map(c=>c.name).join(', ')}`} target="_blank" className="btn btn-ghost" style={{flex:1,justifyContent:'center'}}><Icon name="MessageCircle" size={16}/>Via WA</a>
+        </div>
+      </>}
+    </div>
+  </>);
+}
+
+// ── Check Order Page ────────────────────────────────────────────────
+function CekOrderPage(){
+  const [q,setQ]=useState('');
+  const [result,setResult]=useState(null);
+  const [searched,setSearched]=useState(false);
+  const check=()=>{
+    setSearched(true);
+    const found=ORDERS_DUMMY.find(o=>o.id.toLowerCase()===q.toLowerCase().trim());
+    setResult(found||null);
+  };
+  const statusLabel={'pending':'Menunggu Konfirmasi','process':'Sedang Diproses','done':'Selesai'};
+  const statusClass={'pending':'status-pending','process':'status-process','done':'status-done'};
+  return(<section className="section"><div className="container" style={{maxWidth:600,margin:'0 auto'}}>
+    <div className="tag">Cek Order</div>
+    <h2 className="section-title">Cek Status Order</h2>
+    <p style={{color:'var(--muted)',marginBottom:32}}>Masukkan nomor order untuk melihat status terkini pesanan kamu.</p>
+    <div style={{display:'flex',gap:10,marginBottom:32}}>
+      <input className="input-field" placeholder="Contoh: SKY-2026-001" value={q} onChange={e=>setQ(e.target.value)} onKeyDown={e=>e.key==='Enter'&&check()} style={{flex:1}}/>
+      <button className="btn btn-primary" onClick={check}>Cek</button>
+    </div>
+    {searched&&(result?<div className="card" style={{padding:28}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:16,flexWrap:'wrap',gap:8}}>
+        <div>
+          <div style={{fontSize:13,color:'var(--muted)',marginBottom:4}}>Nomor Order</div>
+          <div style={{fontSize:22,fontWeight:900,color:'var(--primary)',letterSpacing:1}}>{result.id}</div>
+        </div>
+        <span className={`order-status ${statusClass[result.status]}`}>{statusLabel[result.status]}</span>
+      </div>
+      <div className="divider"/>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+        {[['Produk',result.product],['Nama Pemesan',result.name],['Tanggal Order',result.date],['Total',result.total]].map(([l,v])=>(
+          <div key={l}><div style={{fontSize:12,color:'var(--muted)',marginBottom:4}}>{l}</div><div style={{fontWeight:600,fontSize:14}}>{v}</div></div>
+        ))}
+      </div>
+      <div className="divider"/>
+      <a href={`https://wa.me/628123456789?text=Halo, saya ingin tanya status order ${result.id}`} target="_blank" className="btn btn-primary" style={{justifyContent:'center',width:'100%'}}><Icon name="MessageCircle" size={16}/>Hubungi via WhatsApp</a>
+    </div>:<div style={{textAlign:'center',padding:40,background:'var(--surface)',borderRadius:'var(--radius)',border:'1.5px solid var(--border)'}}>
+      <div style={{fontSize:48,marginBottom:16}}>🔍</div>
+      <p style={{fontWeight:600,marginBottom:8}}>Order tidak ditemukan</p>
+      <p style={{fontSize:13,color:'var(--muted)'}}>Pastikan nomor order benar. Contoh: SKY-2026-001</p>
+    </div>)}
+    <div style={{marginTop:40,background:'var(--accent)',borderRadius:14,padding:20}}>
+      <p style={{fontSize:13,fontWeight:600,marginBottom:8}}>📦 Contoh nomor order untuk demo:</p>
+      {ORDERS_DUMMY.map(o=><button key={o.id} onClick={()=>{setQ(o.id);setResult(o);setSearched(true)}} style={{display:'inline-block',margin:'4px',padding:'4px 12px',borderRadius:8,background:'var(--surface)',border:'1.5px solid var(--border)',fontSize:12,fontWeight:700,cursor:'pointer',color:'var(--primary)'}}>{o.id}</button>)}
+    </div>
+  </div></section>);
+}
+
+// ── Admin Dashboard ─────────────────────────────────────────────────
+function AdminDashboard(){
+  const [activeMenu,setActiveMenu]=useState('Dashboard');
+  const stats=[
+    {label:'Order Hari Ini',value:'24',icon:'ShoppingCart',color:'var(--primary)',sub:'+3 dari kemarin'},
+    {label:'Total Omzet',value:'Rp 4,2jt',icon:'TrendingUp',color:'var(--amber)',sub:'Hari ini'},
+    {label:'Order Pending',value:'7',icon:'Clock',color:'#F59E0B',sub:'Perlu konfirmasi'},
+    {label:'Sedang Diproses',value:'11',icon:'Loader',color:'#3B82F6',sub:'Dalam pengerjaan'},
+    {label:'Order Selesai',value:'6',icon:'CheckCircle',color:'var(--success)',sub:'Hari ini'},
+    {label:'Campaign Aktif',value:'3',icon:'Megaphone',color:'#7C3AED',sub:'Running ads'},
+  ];
+  const topProducts=[
+    {name:'Template Lanyard Premium',cat:'Produk Digital',sold:47,rev:'Rp 2,1jt'},
+    {name:'Kasir F&B Basic',cat:'Sistem Bisnis',sold:12,rev:'Rp 6jt'},
+    {name:'Banner Custom Outdoor',cat:'Percetakan',sold:38,rev:'Rp 4,5jt'},
+    {name:'Website UMKM Simple',cat:'Jasa Web',sold:9,rev:'Rp 3,1jt'},
+    {name:'Akun Tools Premium',cat:'Akun Digital',sold:25,rev:'Rp 2,1jt'},
+  ];
+  const recentOrders=[
+    {id:'SKY-2026-042',name:'Rina M.',product:'Kasir F&B Basic',status:'process',total:'Rp 500.000'},
+    {id:'SKY-2026-041',name:'Budi S.',product:'Template Lanyard',status:'done',total:'Rp 45.000'},
+    {id:'SKY-2026-040',name:'Ahmad K.',product:'Banner Custom',status:'pending',total:'Rp 120.000'},
+    {id:'SKY-2026-039',name:'Siti R.',product:'Prompt AI Pack',status:'done',total:'Rp 75.000'},
+  ];
+  const statusClass={'pending':'status-pending','process':'status-process','done':'status-done'};
+  const statusLabel={'pending':'Pending','process':'Diproses','done':'Selesai'};
+  return(<div className="admin-layout">
+    <div className="sidebar">
+      <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:32,padding:'0 4px'}}>
+        <div style={{width:32,height:32,borderRadius:9,background:'linear-gradient(135deg,var(--primary),var(--amber))',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:900,fontSize:14}}>S</div>
+        <span style={{fontWeight:800,fontSize:15}}><span className="gradient-text">Sky</span> Admin</span>
+      </div>
+      {ADMIN_MENU.map(m=>(
+        <div key={m.label} className={`sidebar-link ${activeMenu===m.label?'active':''}`} onClick={()=>setActiveMenu(m.label)}>
+          <Icon name={m.icon} size={16}/><span>{m.label}</span>
+        </div>
+      ))}
+      <div style={{marginTop:24,padding:'12px 16px',borderRadius:10,background:'var(--accent)',border:'1px solid var(--border)'}}>
+        <div style={{fontSize:12,fontWeight:700,marginBottom:4,color:'var(--primary)'}}>Sky Admin v1.0</div>
+        <div style={{fontSize:11,color:'var(--muted)'}}>Panel Manajemen Toko</div>
+      </div>
+    </div>
+    <div style={{padding:32,overflowY:'auto',background:'var(--bg)'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:32,flexWrap:'wrap',gap:16}}>
+        <div>
+          <h1 style={{fontSize:24,fontWeight:800,marginBottom:4}}>{activeMenu}</h1>
+          <p style={{color:'var(--muted)',fontSize:13}}>Sky Creative Store — Panel Admin</p>
+        </div>
+        <div style={{display:'flex',gap:10}}>
+          <div style={{position:'relative'}}><input className="input-field" placeholder="Cari..." style={{width:200,paddingLeft:36,fontSize:13}}/><span style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',opacity:.5}}><Icon name="Search" size={14}/></span></div>
+          <button className="btn btn-primary btn-sm"><Icon name="Plus" size={14}/>Tambah</button>
+        </div>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:16,marginBottom:32}}>
+        {stats.map(s=>(
+          <div key={s.label} className="stat-card">
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:12}}>
+              <div>
+                <p style={{fontSize:12,color:'var(--muted)',fontWeight:500,marginBottom:6}}>{s.label}</p>
+                <p style={{fontSize:28,fontWeight:900,color:s.color}}>{s.value}</p>
+              </div>
+              <div style={{width:44,height:44,borderRadius:12,background:`${s.color}18`,display:'flex',alignItems:'center',justifyContent:'center',color:s.color}}>
+                <Icon name={s.icon} size={20}/>
+              </div>
+            </div>
+            <p style={{fontSize:12,color:'var(--muted)'}}>{s.sub}</p>
+          </div>
+        ))}
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'1.5fr 1fr',gap:24,marginBottom:24}}>
+        <div className="card" style={{padding:24}}>
+          <h3 style={{fontWeight:700,marginBottom:16}}>Order Terbaru</h3>
+          <div className="scroll-x">
+            <table>
+              <thead><tr><th>ID Order</th><th>Customer</th><th>Produk</th><th>Status</th><th>Total</th></tr></thead>
+              <tbody>
+                {recentOrders.map(o=>(
+                  <tr key={o.id}>
+                    <td style={{fontWeight:700,color:'var(--primary)',fontSize:13}}>{o.id}</td>
+                    <td style={{fontSize:13}}>{o.name}</td>
+                    <td style={{fontSize:12,color:'var(--muted)',maxWidth:140}}>{o.product}</td>
+                    <td><span className={`order-status ${statusClass[o.status]}`}>{statusLabel[o.status]}</span></td>
+                    <td style={{fontWeight:600,fontSize:13}}>{o.total}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="card" style={{padding:24}}>
+          <h3 style={{fontWeight:700,marginBottom:16}}>Produk Paling Laku</h3>
+          {topProducts.map((p,i)=>(
+            <div key={p.name} style={{display:'flex',gap:12,alignItems:'center',marginBottom:16}}>
+              <div style={{width:28,height:28,borderRadius:8,background:'var(--accent)',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:800,fontSize:12,color:'var(--primary)',flexShrink:0}}>#{i+1}</div>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontSize:13,fontWeight:600,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.name}</div>
+                <div style={{fontSize:11,color:'var(--muted)'}}>{p.cat} · {p.sold} terjual</div>
+              </div>
+              <div style={{fontSize:13,fontWeight:700,color:'var(--primary)',flexShrink:0}}>{p.rev}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:24}}>
+        <div className="card" style={{padding:24}}>
+          <h3 style={{fontWeight:700,marginBottom:16}}>Kategori Paling Laris</h3>
+          {[['Produk Digital',68,'var(--primary)'],['Sistem Bisnis',54,'var(--amber)'],['Percetakan',42,'var(--success)'],['Jasa Web',31,'#3B82F6'],['Akun Digital',19,'#7C3AED']].map(([label,pct,color])=>(
+            <div key={label} style={{marginBottom:14}}>
+              <div style={{display:'flex',justifyContent:'space-between',marginBottom:6,fontSize:13}}>
+                <span style={{fontWeight:500}}>{label}</span><span style={{fontWeight:700,color}}>{pct}%</span>
+              </div>
+              <div className="progress-bar"><div className="progress-fill" style={{width:`${pct}%`,background:color}}/></div>
+            </div>
+          ))}
+        </div>
+        <div className="card" style={{padding:24}}>
+          <h3 style={{fontWeight:700,marginBottom:16}}>Campaign Ads Aktif</h3>
+          {[{name:'Flash Sale Template',status:'running',budget:'Rp 150rb',reach:'2.4k'},{name:'Kasir F&B Promo',status:'running',budget:'Rp 200rb',reach:'5.1k'},{name:'Cetak Lanyard Murah',status:'paused',budget:'Rp 100rb',reach:'1.8k'}].map(c=>(
+            <div key={c.name} style={{padding:'12px 0',borderBottom:'1px solid var(--border)'}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:4}}>
+                <span style={{fontWeight:600,fontSize:13}}>{c.name}</span>
+                <span style={{fontSize:11,padding:'3px 8px',borderRadius:99,background:c.status==='running'?'#DCFCE7':'#FEF9C3',color:c.status==='running'?'#16A34A':'#CA8A04',fontWeight:700}}>{c.status==='running'?'Aktif':'Jeda'}</span>
+              </div>
+              <div style={{display:'flex',gap:16,fontSize:12,color:'var(--muted)'}}>
+                <span>Budget: {c.budget}</span><span>Reach: {c.reach}</span>
+              </div>
+            </div>
+          ))}
+          <button className="btn btn-primary btn-sm" style={{width:'100%',justifyContent:'center',marginTop:16}}><Icon name="Plus" size={14}/>Buat Campaign</button>
+        </div>
+      </div>
+    </div>
+  </div>);
+}
+
+// ── Category Page ───────────────────────────────────────────────────
+function CategoryPage({catId,addToCart,setShowOrder,setSelectedProduct}){
+  const cat=CATS.find(c=>c.id===catId);
+  const products=PRODUCTS.filter(p=>p.cat===catId);
+  return(<section className="section">
+    <div className="container">
+      <div style={{marginBottom:40}}>
+        <div className="tag">{cat?.label}</div>
+        <h2 className="section-title">{cat?.label}</h2>
+        <p style={{color:'var(--muted)',maxWidth:560}}>{cat?.desc}</p>
+        {catId==='akun-digital'&&<div style={{background:'var(--accent)',border:'2px solid var(--border)',borderRadius:12,padding:'14px 18px',marginTop:16,display:'flex',gap:12,alignItems:'flex-start',maxWidth:560}}>
+          <span style={{fontSize:20,flexShrink:0}}>⚠️</span>
+          <p style={{fontSize:13,lineHeight:1.6,color:'var(--text)'}}>Semua produk akun digital yang kami jual adalah <strong>legal, resmi, dan original</strong>. Kami tidak menjual akun curian, akun sharing ilegal, bypass, atau produk yang melanggar Terms of Service platform manapun. Berbelanja dengan aman dan bertanggung jawab.</p>
+        </div>}
+      </div>
+      {products.length>0?<div className="grid-4">
+        {products.map(p=><ProductCard key={p.id} p={p} addToCart={addToCart} setShowOrder={setShowOrder} setSelectedProduct={setSelectedProduct}/>)}
+      </div>:<div style={{textAlign:'center',padding:60,color:'var(--muted)'}}><div style={{fontSize:56,marginBottom:16}}>{cat?.icon?'📦':'📦'}</div><p style={{fontSize:16,fontWeight:600}}>Produk segera hadir!</p><p style={{fontSize:14,marginTop:8}}>Hubungi kami untuk info lebih lanjut.</p></div>}
+      <div style={{marginTop:48,textAlign:'center'}}>
+        <a href="https://wa.me/628123456789" target="_blank" className="btn btn-primary btn-lg"><Icon name="MessageCircle" size={18}/>Konsultasi & Pesan Custom</a>
+      </div>
+    </div>
+  </section>);
+}
+
+// ── Home Page ───────────────────────────────────────────────────────
+function HomePage({setPage,addToCart,setShowOrder,setSelectedProduct}){
+  return(<>
+    <Hero setPage={setPage} setShowOrder={setShowOrder}/>
+    <CategoriesSection setPage={setPage}/>
+    <ProductsSection addToCart={addToCart} setShowOrder={setShowOrder} setSelectedProduct={setSelectedProduct}/>
+    <BusinessSection setPage={setPage}/>
+    <WhyUsSection/>
+    <TestimonialsSection/>
+  </>);
+}
+
+// ── App ─────────────────────────────────────────────────────────────
+function App(){
+  const [dark,setDark]=useState(()=>{try{return localStorage.getItem('sky-dark')==='1'}catch{return false}});
+  const [page,setPage]=useState('home');
+  const [cart,setCart]=useState([]);
+  const [showCart,setShowCart]=useState(false);
+  const [showOrder,setShowOrder]=useState(false);
+  const [selectedProduct,setSelectedProduct]=useState(null);
+  const [toast,setToast]=useState(null);
+  const addToast=(msg,type='success')=>setToast({msg,type});
+  const addToCart=(p)=>{setCart(c=>[...c,p]);addToast(`${p.name} ditambahkan ke keranjang!`);};
+  useEffect(()=>{
+    document.body.className=dark?'dark':'';
+    try{localStorage.setItem('sky-dark',dark?'1':'0')}catch{}
+  },[dark]);
+  const isAdminPage=page==='dashboard-admin';
+  const catIds=['produk-digital','jasa-web','sistem-bisnis','percetakan','akun-digital','barang-ready'];
+  return(<div style={{minHeight:'100vh',background:'var(--bg)',color:'var(--text)'}}>
+    {!isAdminPage&&<Header dark={dark} toggleDark={()=>setDark(!dark)} page={page} setPage={setPage} cart={cart} setShowCart={setShowCart}/>}
+    {isAdminPage?(
+      <div>
+        <div style={{background:'var(--surface)',borderBottom:'1.5px solid var(--border)',padding:'12px 24px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+          <button onClick={()=>setPage('home')} style={{background:'none',border:'none',cursor:'pointer',display:'flex',alignItems:'center',gap:8,color:'var(--muted)',fontSize:13,fontWeight:600}}><Icon name="ArrowLeft" size={16}/>Kembali ke Toko</button>
+          <div style={{display:'flex',gap:10,alignItems:'center'}}>
+            <button onClick={()=>setDark(!dark)} style={{background:'var(--accent)',border:'none',borderRadius:10,width:36,height:36,display:'flex',alignItems:'center',justifyContent:'center',color:'var(--primary)'}}><Icon name={dark?'Sun':'Moon'} size={16}/></button>
+            <div style={{display:'flex',alignItems:'center',gap:8}}><div style={{width:32,height:32,borderRadius:'50%',background:'linear-gradient(135deg,var(--primary),var(--amber))',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:800,fontSize:13}}>A</div><span style={{fontSize:13,fontWeight:600}}>Admin</span></div>
+          </div>
+        </div>
+        <AdminDashboard/>
+      </div>
+    ):(<main>
+      {page==='home'&&<HomePage setPage={setPage} addToCart={addToCart} setShowOrder={setShowOrder} setSelectedProduct={setSelectedProduct}/>}
+      {catIds.includes(page)&&<CategoryPage catId={page} addToCart={addToCart} setShowOrder={setShowOrder} setSelectedProduct={setSelectedProduct}/>}
+      {page==='cek-order'&&<CekOrderPage/>}
+      {(page==='home'||catIds.includes(page)||page==='cek-order')&&<Footer setPage={setPage}/>}
+    </main>)}
+    {showCart&&<CartDrawer cart={cart} setCart={setCart} onClose={()=>setShowCart(false)} setShowOrder={setShowOrder}/>}
+    {showOrder&&<OrderModal product={selectedProduct} onClose={()=>{setShowOrder(false);setSelectedProduct(null)}} addToast={addToast}/>}
+    {toast&&<Toast msg={toast.msg} type={toast.type} onClose={()=>setToast(null)}/>}
+  </div>);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
